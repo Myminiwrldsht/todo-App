@@ -16,7 +16,7 @@ body.dark {
   --text-color: #2a003f;      /* rich dark purple text */
   --task-bg: #f5e9ff;         /* subtle lavender task cards */
   --input-bg: #ffffff;        /* crisp white input fields */
-  --border-color: #c8a8ff;    /* lavender borders */
+  --border-color: #361570;    /* lavender borders */
 }
 
 
@@ -106,7 +106,7 @@ border-radius:5px;
   }
   button:hover{
     opacity:0.9;
-    background-color: #a76dff;
+    background-color: #8044da;
     transform: scale(1.2);
     transition: 0.2s ease;
   }

@@ -1,3 +1,19 @@
+:root {
+  --primary: #b983ff;
+  --background: #f5f3ff;
+  --text: #000;
+  --task-bg: #ede9fe;
+}
+
+body.dark {
+  --background: #1e1e1e;
+  --text: #f0f0f0;
+  --task-bg: #333;
+  --primary: #d2a8ff;
+  background-color: var(--background);
+  color: var(--text);
+}
+
 body {
     font-family: sans-serif;
     background-color:var(--background);

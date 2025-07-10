@@ -71,6 +71,23 @@ function filterTasks(type) {
     } else if (type === "done") {
       task.style.display = isDone ? "flex" : "none";
     }
+
   });
 }
+function clearAllTasks() {
+  taskList.innerHTML = "";
+  localStorage.removeItem("tasks");
+}
+function completeTask(button) {
+  const task = button.parentElement.parentElement.querySelector("span");
+  task.classList.toggle("done");
+
+  const sound = document.getElementById("checkSound");
+  sound.play();
+}
+const toggle = document.getElementById("theme-toggle");
+toggle.addEventListener("click", () => {
+  document.body.classList.toggle("dark");
+});
+
   

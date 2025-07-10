@@ -74,11 +74,16 @@ function filterTasks(type) {
 
   });
 }
-function clearAllTasks() {
+function clearAllTasks() { 
+  if (confirm("Are you sure you want to clear all tasks?")) {
+    taskList.innerHTML = "";
+    localStorage.removeItem("tasks");
+  }
   taskList.innerHTML = "";
   localStorage.removeItem("tasks");
 }
 function completeTask(button) {
+
   const task = button.parentElement.parentElement.querySelector("span");
   task.classList.toggle("done");
 

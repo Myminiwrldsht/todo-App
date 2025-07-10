@@ -77,4 +77,17 @@ function checkEmpty() {
   const hasTasks = document.querySelectorAll("#task-list .task").length > 0;
   msg.style.display = hasTasks ? "none" : "block";
 }
+function clearAllTasks() {
+  const confirmClear= confirm("Are you sure you want to clear all tasks?");
+  if (confirmClear){
+  // Remove all task elements
+  document.getElementById("task-list").innerHTML = "";
+
+  // Clear from localStorage
+  localStorage.removeItem("tasks");
+
+  // Show empty message
+  checkEmpty();
+}
+}
 

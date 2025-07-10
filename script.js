@@ -1,95 +1,80 @@
-const form = document.getElementById("task-form");
+const taskForm = document.getElementById("task-form");
 const taskInput = document.getElementById("task-input");
 const taskList = document.getElementById("task-list");
+const checkSound = document.getElementById("checkSound");
 
-// Load tasks on page load
-document.addEventListener("DOMContentLoaded", loadTasks);
-
-// Submit form
-form.addEventListener("submit", function (e) {
-  e.preventDefault();
+// Listen for form submission
+taskForm.addEventListener("submit", function (e) {
+  e.preventDefault(); // prevent page refresh
   const taskText = taskInput.value.trim();
 
   if (taskText !== "") {
     addTask(taskText);
-    saveTask(taskText);
-    taskInput.value = "";
+    taskInput.value = ""; // clear input
   }
 });
 
-function addTask(text) {
+// Function to add a new task
+function addTask(taskText, completed=false) {
   const li = document.createElement("li");
-  li.innerHTML = `
-    <span>${text}</span>
-    <div>
-      <button onclick="completeTask(this)">✅</button>
-      <button onclick="deleteTask(this)">🗑️</button>
-    </div>
-  `;
-  taskList.appendChild(li);
-}
+  li.classList.add("task");
 
-function completeTask(button) {
-  const task = button.parentElement.parentElement.querySelector("span");
-  task.classList.toggle("done");
-  
-}
+  // Create the custom checkbox
+  const checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  checkbox.classList.add("check");
+  checkbox.checked = completed;
 
-function deleteTask(button) {
-  const li = button.parentElement.parentElement;
-  const taskText = li.querySelector("span").textContent;
-  taskList.removeChild(li);
-  removeTask(taskText);
-}
+  // Task text
+  const span = document.createElement("span");
+  span.textContent = taskText;
 
-// Storage functions
-function saveTask(task) {
-  let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-  tasks.push(task);
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-}
+  // Delete button
+  const deleteBtn = document.createElement("button");
+  deleteBtn.classList.add("delete");
+  deleteBtn.textContent = "🗑";
 
-function removeTask(taskToRemove) {
-  let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-  tasks = tasks.filter((task) => task !== taskToRemove);
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-}
-
-function loadTasks() {
-  const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-  tasks.forEach(addTask);
-}
-function filterTasks(type) {
-  const tasks = taskList.querySelectorAll("li");
-  tasks.forEach((task) => {
-    const isDone = task.querySelector("span").classList.contains("done");
-
-    if (type === "all") {
-      task.style.display = "flex";
-    } else if (type === "active") {
-      task.style.display = isDone ? "none" : "flex";
-    } else if (type === "done") {
-      task.style.display = isDone ? "flex" : "none";
-    }
-
+  // Checkbox toggles completion
+  checkbox.addEventListener("change", () => {
+    li.classList.toggle("completed");
+    saveTasks();
+    checkSound.currentTime = 0;
+    checkSound.play();
   });
+
+  // Delete button removes task
+  deleteBtn.addEventListener("click", () => {
+    li.remove();
+    saveTasks();
+    checkEmpty();
+  });
+  if (completed) li.classList.add("completed");
+
+  // Assemble task
+  li.appendChild(checkbox);
+  li.appendChild(span);
+  li.appendChild(deleteBtn);
+  taskList.appendChild(li);
+
+  saveTasks();
+  checkEmpty();
 }
-function clearAllTasks() { 
-  if (confirm("Are you sure you want to clear all tasks?")) {
-    taskList.innerHTML = "";
-    localStorage.removeItem("tasks");
-  }
-  taskList.innerHTML = "";
-  localStorage.removeItem("tasks");
+window.addEventListener("load", () => {
+  const saved = JSON.parse(localStorage.getItem("tasks")) || [];
+  saved.forEach((task) => addTask(task.text, task.completed));
+});
+function saveTasks() {
+  const tasks = [];
+  document.querySelectorAll("#task-list .task").forEach((li) => {
+    const text = li.querySelector("span").textContent;
+    const completed = li.querySelector("input").checked;
+    tasks.push({ text, completed });
+  });
+  localStorage.setItem("tasks", JSON.stringify(tasks));
 }
-function completeTask(button) {
-
-  const task = button.parentElement.parentElement.querySelector("span");
-  task.classList.toggle("done");
-
-  const sound = document.getElementById("checkSound");
-  sound.play();
+function checkEmpty() {
+  const msg = document.getElementById("empty-message");
+  const hasTasks = document.querySelectorAll("#task-list .task").length > 0;
+  msg.style.display = hasTasks ? "none" : "block";
 }
 
-
-  

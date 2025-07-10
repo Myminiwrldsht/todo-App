@@ -8,8 +8,20 @@
     <title>My To-Do App</title>
     <link rel="stylesheet" href="style.css">
 </head>
+<h1>
+    <img src="https://cdn-icons-png.flaticon.com/512/7595/7595571.png" alt="logo"
+        style="height: 30px; vertical-align: middle;">
+    Maya’s Tasks
+</h1>
+  
 
 <body>
+    <div id="filters">
+        <button onclick="filterTasks('all')">All</button>
+        <button onclick="filterTasks('active')">Active</button>
+        <button onclick="filterTasks('done')">Completed</button>
+    </div>
+      
     <div class="container">
         <h1>📝 Maya's To-Do List</h1>
         <form id="task-form">
@@ -20,6 +32,9 @@
     </div>
 
     <script src="script.js"></script>
+    
+      
 </body>
+
 
 </html>

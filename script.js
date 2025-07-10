@@ -32,6 +32,7 @@ function addTask(text) {
 function completeTask(button) {
   const task = button.parentElement.parentElement.querySelector("span");
   task.classList.toggle("done");
+  
 }
 
 function deleteTask(button) {
@@ -58,3 +59,18 @@ function loadTasks() {
   const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
   tasks.forEach(addTask);
 }
+function filterTasks(type) {
+  const tasks = taskList.querySelectorAll("li");
+  tasks.forEach((task) => {
+    const isDone = task.querySelector("span").classList.contains("done");
+
+    if (type === "all") {
+      task.style.display = "flex";
+    } else if (type === "active") {
+      task.style.display = isDone ? "none" : "flex";
+    } else if (type === "done") {
+      task.style.display = isDone ? "flex" : "none";
+    }
+  });
+}
+  

@@ -1,13 +1,15 @@
 body {
     font-family: sans-serif;
-    background-color: #fdfdfd;
+    background-color:var(--background);
     padding: 20px;
   }
   
   .container {
+    background-color:white;
+    border-left: 5px solid var(--primary);
     max-width: 500px;
     margin: auto;
-    padding: 20px;
+    padding: 1rem;
     background: #fff;
     box-shadow: 0 0 10px #ccc;
     border-radius: 8px;
@@ -15,12 +17,14 @@ body {
   
   #task-form {
     display: flex;
+    flex-wrap:wrap;
     gap: 10px;
   }
   
   #task-input {
-    flex: 1;
+    flex: 1 1 100%;
     padding: 10px;
+ border: 2px solid var(--primary);
   }
   
   #task-list {
@@ -36,6 +40,19 @@ body {
     display: flex;
     justify-content: space-between;
     border-radius: 5px;
+  }
+  #task-form button{
+    padding:10px;
+    width:100%;
+  }
+  @media screen and (min-width:600px){
+    #task-input{
+        flex:1;
+
+    }
+    #task-form button{
+        width:auto;
+    }
   }
   button {
     background: transparent;
@@ -54,4 +71,37 @@ body {
     color: gray;
     opacity: 0.7;
   }
+  #task-list li {
+    animation: slideIn 0.3s ease;
+    transition: background 0.3s ease;
+  }
   
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  button:hover {
+    transform: scale(1.1);
+    transition: transform 0.2s ease;
+  }
+  :root {
+    --primary: #b983ff;
+    --background: #f5f3ff;
+    --task-bg: #ede9fe;
+  }
+  .done{
+    animation:strikeFade o.5s fowards;
+
+  }
+    @keyframes strikeFade {
+        0%{color:#000; text-decoration:none; opacity:1;}
+            100%{color:gray; text-decoration:line-through; opacity:0.6;}
+        }
+       
